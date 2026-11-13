@@ -1,0 +1,585 @@
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Google!</title>  <style>  
+    body {  
+        background-color: #FFFFFF;  
+        color: #000000;  
+        font-family: "Times New Roman", Times, serif;  
+        margin: 20px;  
+        text-align: center;  
+    }  
+
+    a {  
+        color: #0000EE;  
+        text-decoration: underline;  
+    }  
+
+    a:visited {  
+        color: #551A8B;  
+    }  
+
+    input[type="text"] {  
+        font-size: 12pt;  
+        font-family: Arial, sans-serif;  
+        border: 1px solid #777777;  
+        padding: 2px;  
+    }  
+
+    .btn {  
+        font-size: 10pt;  
+        font-family: Arial, sans-serif;  
+        padding: 2px 6px;  
+        background-color: #EFEFEF;  
+        border: 2px outset #CCCCCC;  
+        cursor: pointer;  
+    }  
+
+    .btn:active {  
+        border: 2px inset #CCCCCC;  
+    }  
+
+    .vintage-logo {  
+        font-size: 60pt;  
+        font-weight: bold;  
+        letter-spacing: -2px;  
+        font-family: Arial, Helvetica, sans-serif;  
+        margin-bottom: 10px;  
+    }  
+
+    .vintage-logo span:nth-child(1) { color: #245dc1; }  
+    .vintage-logo span:nth-child(2) { color: #f22613; }  
+    .vintage-logo span:nth-child(3) { color: #f9a602; }  
+    .vintage-logo span:nth-child(4) { color: #245dc1; }  
+    .vintage-logo span:nth-child(5) { color: #00a86b; }  
+    .vintage-logo span:nth-child(6) { color: #f22613; }  
+    .vintage-logo span:nth-child(7) { color: #245dc1; }  
+
+    #homepage-view {  
+        display: block;  
+    }  
+
+    .search-panel-1998 {  
+        background-color: #EEEEEE;  
+        border: 1px solid #CCCCCC;  
+        padding: 12px 30px;  
+        width: 90%;  
+        max-width: 600px;  
+        margin: 0 auto 15px auto;  
+    }  
+
+    .search-input-home {  
+        width: 290px;  
+        margin-bottom: 8px;  
+    }  
+
+    .grid-1998 {  
+        width: 90%;  
+        max-width: 750px;  
+        margin: 25px auto;  
+        border-spacing: 15px 0px;  
+    }  
+
+    .grid-cell {  
+        vertical-align: top;  
+        width: 33.33%;  
+        padding: 10px;  
+        font-size: 10pt;  
+        text-align: center;  
+    }  
+
+    .cell-teal-1 { background-color: #70CCC2; }  
+    .cell-teal-2 { background-color: #62B3AA; }  
+    .cell-teal-3 { background-color: #9cdbd3; }  
+
+    /* RESULTS PAGE */  
+
+    #results-view {  
+        display: none;  
+        text-align: left;  
+        max-width: 800px;  
+        margin: 0 auto;  
+    }  
+
+    .results-header-bar {  
+        background-color: #EEEEEE;  
+        border-bottom: 1px solid #CCCCCC;  
+        padding: 10px;  
+        display: flex;  
+        align-items: center;  
+        gap: 20px;  
+        margin-bottom: 15px;  
+        flex-wrap: wrap;  
+    }  
+
+    .small-logo {  
+        font-size: 24pt;  
+        font-weight: bold;  
+        font-family: Arial, sans-serif;  
+        text-decoration: none;  
+    }  
+
+    .search-stats-strip {  
+        font-family: Arial, sans-serif;  
+        font-size: 9pt;  
+        color: #555555;  
+        margin-bottom: 15px;  
+        border-bottom: 1px dotted #999999;  
+        padding-bottom: 4px;  
+    }  
+
+    /* GREY BACKGROUND */  
+
+    #notification-overlay {  
+        display: none;  
+        position: fixed;  
+        inset: 0;  
+        background-color: rgba(0, 0, 0, 0.45);  
+        z-index: 10000;  
+    }  
+
+    /* FORMAL SUBSCRIPTION BOX */  
+
+    #subscription-notification {  
+        display: none;  
+        position: fixed;  
+        top: 50%;  
+        left: 50%;  
+        transform: translate(-50%, -50%);  
+        background-color: #FFFFFF;  
+        border: 1px solid #777777;  
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);  
+        padding: 55px 20px;  
+        width: 280px;  
+        max-width: calc(100% - 50px);  
+        text-align: center;  
+        font-family: Arial, sans-serif;  
+        font-size: 15px;  
+        z-index: 10001;  
+        box-sizing: border-box;  
+    }  
+
+    #notification-message {  
+        margin-bottom: 25px;  
+        font-size: 16px;  
+    }  
+
+    .notification-actions {  
+        display: flex;  
+        justify-content: center;  
+        gap: 10px;  
+    }  
+
+    .notification-actions button {  
+        padding: 8px 20px;  
+        cursor: pointer;  
+        font-size: 14px;  
+    }  
+
+    .plan-prices {  
+        line-height: 2.2;  
+        margin: 25px 0;  
+    }  
+
+    .payment-note {  
+        font-size: 13px;  
+        color: #555555;  
+        line-height: 1.5;  
+    }  
+
+</style>
+
+</head>  <body>  <!-- HOMEPAGE -->  
+
+<div id="homepage-view">  
+
+    <div class="vintage-logo">  
+        <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span><span>!</span>  
+    </div>  
+
+    <div class="search-panel-1998">  
+
+        <p style="font-size:11pt; margin-top:0; font-family:Arial,sans-serif; font-weight:bold;">  
+            Search the web using Google!  
+        </p>  
+
+        <form onsubmit="executeVintageSearch(event, 'home-query');">  
+
+            <input type="text"  
+                   id="home-query"  
+                   class="search-input-home"  
+                   autofocus><br>  
+
+            <input type="submit"  
+                   value="Google Search"  
+                   class="btn">  
+
+            <input type="button"  
+                   value="I'm feeling lucky"  
+                   class="btn"  
+                   onclick="executeLuckySearch();">  
+
+        </form>  
+
+    </div>  
+
+    <table class="grid-1998">  
+        <tr>  
+
+            <td class="grid-cell cell-teal-1">  
+                <a href="#"><b>Special Searches</b></a><br>  
+                <a href="#">Stanford Search</a><br>  
+                <a href="#">Linux Search</a>  
+            </td>  
+
+            <td class="grid-cell cell-teal-2">  
+                <a href="#"><b>Help!</b></a><br>  
+                <a href="#">About Google!</a><br>  
+                <a href="#">Company Info</a><br>  
+                <a href="#">Google! Logos</a>  
+            </td>  
+
+            <td class="grid-cell cell-teal-3">  
+
+                Get Google!<br>  
+                updates monthly:<br>  
+
+                <input type="text"  
+                       value="your e-mail"  
+                       style="width:110px; font-size:9pt; margin:4px 0;"><br>  
+
+                <input type="button"  
+                       value="Subscribe"  
+                       class="btn"  
+                       onclick="showSubscriptionOptions();">  
+
+            </td>  
+
+        </tr>  
+    </table>  
+
+    <footer style="margin-top:40px; font-size:10pt;">  
+        Copyright ©1998 Google Inc.  
+    </footer>  
+
+</div>  
+
+
+<!-- SEARCH RESULTS PAGE -->  
+
+<div id="results-view">  
+
+    <div class="results-header-bar">  
+
+        <a href="#"  
+           onclick="showHome(); return false;"  
+           class="small-logo">  
+
+            <span style="color:#245dc1;">G</span><span style="color:#f22613;">o</span><span style="color:#f9a602;">o</span><span style="color:#245dc1;">g</span><span style="color:#00a86b;">l</span><span style="color:#f22613;">e</span><span style="color:#245dc1;">!</span>  
+
+        </a>  
+
+        <form onsubmit="executeVintageSearch(event, 'bar-query');"  
+              style="margin:0;">  
+
+            <input type="text"  
+                   id="bar-query"  
+                   style="width:300px;">  
+
+            <input type="submit"  
+                   value="Search"  
+                   class="btn">  
+
+        </form>  
+
+    </div>  
+
+    <div class="search-stats-strip">  
+
+        Google search results for:  
+
+        <b id="target-keyword" style="color:#A00;">keyword</b>  
+
+        &nbsp;&nbsp;&nbsp;&nbsp;  
+
+        Showing search results.  
+
+    </div>  
+
+    <!-- SEARCH RESULTS UNDER THE SEARCH BAR -->  
+
+    <div id="custom-results-target"></div>  
+
+    <p style="margin-top:30px; font-size:10pt; font-family:Arial,sans-serif;">  
+
+        <a href="#" onclick="showHome(); return false;">  
+            Back to Google Homepage  
+        </a>  
+
+    </p>  
+
+</div>  
+
+
+<!-- GREY OVERLAY -->  
+
+<div id="notification-overlay"></div>  
+
+
+<!-- SUBSCRIPTION NOTIFICATION -->  
+
+<div id="subscription-notification">  
+
+    <div id="notification-message">  
+
+        <h3 style="margin-top:0;">  
+            Subscription Plans  
+        </h3>  
+
+        <p>  
+            Choose your preferred update plan.  
+        </p>  
+
+        <div class="plan-prices">  
+
+            <b>Monthly:</b> ₹99<br>  
+
+            <b>Yearly:</b> ₹999  
+
+        </div>  
+
+        <p class="payment-note">  
+
+            Payment is required to activate your subscription.  
+
+        </p>  
+
+    </div>  
+
+    <div class="notification-actions"  
+         id="notification-actions">  
+
+        <button type="button"  
+                onclick="selectSubscription('Monthly')">  
+
+            Monthly  
+
+        </button>  
+
+        <button type="button"  
+                onclick="selectSubscription('Yearly')">  
+
+            Yearly  
+
+        </button>  
+
+    </div>  
+
+</div>  
+
+
+<!-- JAVASCRIPT -->  
+
+<script>  
+
+    window.pendingVintageQuery = null;  
+
+    var notificationTimer = null;  
+
+
+    // GOOGLE SEARCH INITIALIZATION  
+
+    window.__gcse = {  
+
+        parsetags: 'explicit',  
+
+        initializationCallback: function() {  
+
+            google.search.cse.element.render({  
+
+                div: 'custom-results-target',  
+
+                tag: 'searchresults-only',  
+
+                gname: 'vintageResults'  
+
+            });  
+
+            if (window.pendingVintageQuery) {  
+
+                runVintageQuery(window.pendingVintageQuery);  
+
+            }  
+
+        }  
+
+    };  
+
+
+    // SHOW HOMEPAGE  
+
+    function showHome() {  
+
+        document.getElementById('results-view').style.display = 'none';  
+
+        document.getElementById('homepage-view').style.display = 'block';  
+
+    }  
+
+
+    // GOOGLE SEARCH FUNCTION  
+
+    function runVintageQuery(query) {  
+
+        if (!query) return;  
+
+        if (window.google &&  
+            google.search &&  
+            google.search.cse &&  
+            google.search.cse.element) {  
+
+            var searchElement =  
+                google.search.cse.element.getElement('vintageResults');  
+
+            if (searchElement &&  
+                typeof searchElement.execute === 'function') {  
+
+                searchElement.execute(query);  
+
+                window.pendingVintageQuery = null;  
+
+                return;  
+
+            }  
+
+        }  
+
+        window.pendingVintageQuery = query;  
+
+    }  
+
+
+    // SEARCH BUTTON  
+
+    function executeVintageSearch(event, inputElementId) {  
+
+        event.preventDefault();  
+
+        var userQuery =  
+            document.getElementById(inputElementId).value.trim();  
+
+        if (!userQuery) {  
+
+            document.getElementById(inputElementId).focus();  
+
+            return;  
+
+        }  
+
+        document.getElementById('home-query').value = userQuery;  
+
+        document.getElementById('bar-query').value = userQuery;  
+
+        document.getElementById('target-keyword').innerText =  
+            '"' + userQuery + '"';  
+
+        document.getElementById('homepage-view').style.display = 'none';  
+
+        document.getElementById('results-view').style.display = 'block';  
+
+        runVintageQuery(userQuery);  
+
+    }  
+
+
+    // I'M FEELING LUCKY  
+
+    function executeLuckySearch() {  
+
+        executeVintageSearch(  
+            { preventDefault: function() {} },  
+            'home-query'  
+        );  
+
+    }  
+
+
+    // NOTIFICATION FUNCTION  
+
+    function showNotification(message, showButtons, duration) {  
+
+        var notification =  
+            document.getElementById('subscription-notification');  
+
+        var overlay =  
+            document.getElementById('notification-overlay');  
+
+        var messageBox =  
+            document.getElementById('notification-message');  
+
+        var actions =  
+            document.getElementById('notification-actions');  
+
+        clearTimeout(notificationTimer);  
+
+        messageBox.textContent = message;  
+
+        actions.style.display = showButtons ? 'flex' : 'none';  
+
+        overlay.style.display = 'block';  
+
+        notification.style.display = 'block';  
+
+        if (duration > 0) {  
+
+            notificationTimer = setTimeout(function() {  
+
+                notification.style.display = 'none';  
+
+                overlay.style.display = 'none';  
+
+            }, duration);  
+
+        }  
+
+    }  
+
+
+    // SUBSCRIBE BUTTON  
+
+    function showSubscriptionOptions() {  
+
+        showNotification(  
+            'Choose your subscription plan!',  
+            true,  
+            0  
+        );  
+
+    }  
+
+
+    // MONTHLY AND YEARLY SELECTION  
+
+    function selectSubscription(plan) {  
+
+        showNotification(  
+            'You selected the ' + plan +  
+            ' plan. Please complete payment to activate your subscription.',  
+            false,  
+            4000  
+        );  
+
+    }  
+
+</script>  
+
+
+<!-- GOOGLE PROGRAMMABLE SEARCH ENGINE -->  
+
+<script async  
+    src="https://cse.google.com/cse.js?cx=11c66f9d3d7e2403a">  
+</script>
+
+</body>  
+</html>  
