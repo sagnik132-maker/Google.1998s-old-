@@ -1,4 +1,4 @@
-Google 1998 – Classic Homepage Recreation
+*Google 1998 – Classic Homepage Recreation*
 
 A recreation of the original Google homepage from 1998, bringing back the simple and minimal design of the early days of Google.
 
